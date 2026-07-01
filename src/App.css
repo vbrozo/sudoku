@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: var(--space-md);
   box-sizing: border-box;
 }
 
@@ -12,14 +12,17 @@
   width: 100%;
   max-width: 500px;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-md);
+  padding: 0 68px;
 }
 
 .app__header h1 {
-  font-size: 24px;
+  font-size: clamp(19px, 6vw, 26px);
   font-weight: 700;
-  color: #1f2933;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
   margin: 0;
+  transition: color var(--transition-fast);
 }
 
 .app__stats-button {
@@ -27,20 +30,38 @@
   top: 50%;
   right: 0;
   transform: translateY(-50%);
+  min-height: 32px;
   padding: 6px 12px;
   font-size: 13px;
   font-weight: 600;
-  color: #2d6cdf;
-  background-color: #ffffff;
-  border: 1px solid #2d6cdf;
-  border-radius: 8px;
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   touch-action: manipulation;
+  transition: background-color var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.app__stats-button:active {
+  background-color: var(--color-primary-soft);
 }
 
 .app__main {
   width: 100%;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+@media (min-width: 600px) {
+  .app {
+    padding: var(--space-lg);
+  }
+
+  .app__main {
+    max-width: 560px;
+  }
 }

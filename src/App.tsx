@@ -12,7 +12,9 @@ import { VictoryModal } from "./components/VictoryModal";
 import { ChoiceDialog } from "./components/ChoiceDialog";
 import { UpdatePrompt } from "./components/UpdatePrompt";
 import { StatisticsScreen } from "./components/StatisticsScreen";
+import { ThemeToggle } from "./components/ThemeToggle";
 import { useSudoku } from "./hooks/useSudoku";
+import { useTheme } from "./hooks/useTheme";
 import "./App.css";
 
 function App() {
@@ -46,10 +48,12 @@ function App() {
   } = useSudoku();
 
   const [statsOpen, setStatsOpen] = useState(false);
+  const { mode: themeMode, cycleMode: cycleTheme } = useTheme();
 
   return (
     <div className="app">
       <header className="app__header">
+        <ThemeToggle mode={themeMode} onToggle={cycleTheme} />
         <h1>Sudoku</h1>
         <button
           type="button"

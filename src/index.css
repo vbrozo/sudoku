@@ -1,5 +1,77 @@
 :root {
   color-scheme: light;
+
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 16px;
+  --space-lg: 24px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eef1f4;
+  --color-text: #1f2933;
+  --color-text-muted: #6b7684;
+  --color-text-disabled: #b0b7bf;
+  --color-border: #dfe3e8;
+  --color-border-strong: #2b3844;
+
+  --color-primary: #2d6cdf;
+  --color-primary-contrast: #ffffff;
+  --color-primary-soft: #eaf0ff;
+
+  --color-selected: #bcd4ff;
+  --color-peer: #f0f4fb;
+  --color-same-value: #dbe8ff;
+
+  --color-success: #1a7f37;
+  --color-danger: #b3261e;
+  --color-danger-bg: #fbe7e6;
+  --color-hint: #9a6b00;
+  --color-hint-bg: #fdf1d6;
+
+  --color-overlay: rgba(31, 41, 51, 0.5);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+  --color-toast-bg: #1f2933;
+  --color-toast-text: #ffffff;
+
+  --transition-fast: 0.15s ease;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #14181e;
+  --color-surface: #1e242c;
+  --color-surface-alt: #262d37;
+  --color-text: #e8ecf1;
+  --color-text-muted: #97a2b0;
+  --color-text-disabled: #5a636e;
+  --color-border: #333c48;
+  --color-border-strong: #aab4c0;
+
+  --color-primary: #5b93ff;
+  --color-primary-contrast: #0c1520;
+  --color-primary-soft: #22314d;
+
+  --color-selected: #2c4a7c;
+  --color-peer: #1c222b;
+  --color-same-value: #24365a;
+
+  --color-success: #4caf6a;
+  --color-danger: #ff7a72;
+  --color-danger-bg: #4a2020;
+  --color-hint: #e0b34d;
+  --color-hint-bg: #423110;
+
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  --color-toast-bg: #eef1f4;
+  --color-toast-text: #14181e;
 }
 
 * {
@@ -10,10 +82,11 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #f4f5f7;
-  color: #1f2933;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 #root {

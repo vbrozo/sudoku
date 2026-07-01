@@ -6,8 +6,10 @@
   max-width: 500px;
   aspect-ratio: 1 / 1;
   margin: 0 auto;
-  border: 2px solid #2b3844;
-  border-radius: 8px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }

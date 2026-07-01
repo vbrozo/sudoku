@@ -1,5 +1,7 @@
 .game-board-area {
   position: relative;
+  width: 100%;
+  max-width: 500px;
 }
 
 .game-board-area--paused .sudoku-board {
@@ -14,12 +16,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(244, 245, 247, 0.7);
-  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  border-radius: var(--radius-sm);
+  animation: pause-overlay-fade-in var(--transition-fast);
 }
 
 .pause-overlay__text {
   font-size: 24px;
   font-weight: 700;
-  color: #1f2933;
+  color: var(--color-text);
+}
+
+@keyframes pause-overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

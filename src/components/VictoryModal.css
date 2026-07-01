@@ -4,41 +4,53 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(31, 41, 51, 0.5);
-  padding: 16px;
+  background-color: var(--color-overlay);
+  padding: var(--space-md);
   z-index: 10;
+  animation: victory-modal-fade-in var(--transition-fast);
 }
 
 .victory-modal__card {
   width: 100%;
   max-width: 320px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 24px;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-card);
+  transition: background-color var(--transition-fast);
 }
 
 .victory-modal__title {
   margin: 0 0 8px;
   font-size: 22px;
-  color: #1a7f37;
+  color: var(--color-success);
 }
 
 .victory-modal__message {
   margin: 0 0 20px;
-  color: #1f2933;
+  color: var(--color-text);
 }
 
 .victory-modal__button {
   width: 100%;
+  min-height: 44px;
   padding: 12px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
-  background-color: #2d6cdf;
+  color: var(--color-primary-contrast);
+  background-color: var(--color-primary);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   touch-action: manipulation;
+}
+
+@keyframes victory-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

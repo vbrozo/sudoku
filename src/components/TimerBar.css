@@ -4,34 +4,38 @@
   justify-content: space-between;
   width: 100%;
   max-width: 500px;
-  margin: 0 auto 12px;
+  margin: 0 auto var(--space-sm);
 }
 
 .timer-bar__time {
   font-size: 20px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: #1f2933;
+  color: var(--color-text);
+  transition: color var(--transition-fast);
 }
 
 .timer-bar__button {
+  min-height: 44px;
   padding: 8px 20px;
   font-size: 14px;
   font-weight: 600;
-  color: #2d6cdf;
-  background-color: #ffffff;
-  border: 1px solid #2d6cdf;
-  border-radius: 8px;
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   touch-action: manipulation;
+  transition: background-color var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .timer-bar__button:active:not(:disabled) {
-  background-color: #eaf0ff;
+  background-color: var(--color-primary-soft);
 }
 
 .timer-bar__button:disabled {
-  color: #b0b7bf;
-  border-color: #dfe3e8;
+  color: var(--color-text-disabled);
+  border-color: var(--color-border);
   cursor: not-allowed;
 }
