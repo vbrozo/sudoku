@@ -18,8 +18,8 @@ export function DifficultySelector({ difficulty, onSelect }: DifficultySelectorP
           role="radio"
           aria-checked={level === difficulty}
           className={
-            "difficulty-selector__button" +
-            (level === difficulty ? " difficulty-selector__button--active" : "")
+            "difficulty-selector__button btn btn--outline-neutral" +
+            (level === difficulty ? " btn--filled-primary" : "")
           }
           onClick={() => onSelect(level)}
         >

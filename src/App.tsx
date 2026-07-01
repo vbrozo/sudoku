@@ -41,7 +41,7 @@ function App() {
     toggleNote,
     eraseValue,
     toggleNoteMode,
-    useHint,
+    applyHint,
     newGame,
     resetGame,
     checkPuzzle,
@@ -57,7 +57,7 @@ function App() {
         <h1>Sudoku</h1>
         <button
           type="button"
-          className="app__stats-button"
+          className="app__stats-button btn btn--outline-primary"
           onClick={() => setStatsOpen(true)}
         >
           Stats
@@ -75,7 +75,7 @@ function App() {
           onNewGame={() => newGame()}
           onResetGame={resetGame}
           onCheck={checkPuzzle}
-          onHint={useHint}
+          onHint={applyHint}
           hintDisabled={isSolved || paused}
         />
         <MistakeStatus visible={showMistakes && !isSolved} mistakeCount={mistakes.length} />

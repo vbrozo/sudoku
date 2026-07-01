@@ -17,18 +17,18 @@ export function GameControls({
 }: GameControlsProps) {
   return (
     <div className="game-controls">
-      <button type="button" className="game-controls__button" onClick={onNewGame}>
+      <button type="button" className="game-controls__button btn btn--outline-primary" onClick={onNewGame}>
         New Game
       </button>
-      <button type="button" className="game-controls__button" onClick={onResetGame}>
+      <button type="button" className="game-controls__button btn btn--outline-primary" onClick={onResetGame}>
         Reset Game
       </button>
-      <button type="button" className="game-controls__button" onClick={onCheck}>
+      <button type="button" className="game-controls__button btn btn--outline-primary" onClick={onCheck}>
         Check
       </button>
       <button
         type="button"
-        className="game-controls__button"
+        className="game-controls__button btn btn--outline-primary"
         onClick={onHint}
         disabled={hintDisabled}
       >

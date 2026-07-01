@@ -9,25 +9,11 @@
 
 .number-pad__button {
   aspect-ratio: 1 / 1;
-  min-height: 44px;
   font-size: clamp(16px, 4vw, 20px);
-  font-weight: 600;
-  color: var(--color-text);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .number-pad__button:active:not(:disabled) {
   background-color: var(--color-same-value);
-}
-
-.number-pad__button:disabled {
-  color: var(--color-text-disabled);
-  cursor: not-allowed;
 }
 
 .number-pad__button--erase {

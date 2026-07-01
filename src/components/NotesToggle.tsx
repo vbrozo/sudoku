@@ -9,7 +9,9 @@ export function NotesToggle({ active, onToggle }: NotesToggleProps) {
   return (
     <button
       type="button"
-      className={"notes-toggle" + (active ? " notes-toggle--active" : "")}
+      className={
+        "notes-toggle btn btn--outline-neutral" + (active ? " notes-toggle--active" : "")
+      }
       onClick={onToggle}
       aria-pressed={active}
     >

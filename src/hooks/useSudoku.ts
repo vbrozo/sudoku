@@ -4,7 +4,7 @@ import { generatePuzzle } from "../logic/generator";
 import { findHintCell } from "../logic/hints";
 import { findMistakes, isBoardSolved } from "../logic/mistakes";
 import { clearCellNotes, clearNoteFromPeers, toggleCellNote } from "../logic/notes";
-import { createBoardFromPuzzle, hasBoardProgress } from "../utils/board";
+import { createBoardFromPuzzle, hasBoardProgress, updateCell } from "../utils/board";
 import {
   clearSavedGame,
   loadGame,
@@ -77,9 +77,7 @@ export function useSudoku() {
       const cell = prev.board[row][col];
       if (cell.locked) return prev;
 
-      let board = prev.board.map((r) => r.slice());
-      board[row] = board[row].slice();
-      board[row][col] = { ...cell, value, notes: [], hinted: false };
+      let board = updateCell(prev.board, row, col, { value, notes: [], hinted: false });
       board = clearNoteFromPeers(board, row, col, value);
 
       const isWrong = prev.solution[row][col] !== value;
@@ -119,9 +117,7 @@ export function useSudoku() {
       }
 
       if (cell.value === null) return prev;
-      const board = prev.board.map((r) => r.slice());
-      board[row] = board[row].slice();
-      board[row][col] = { ...cell, value: null, hinted: false };
+      const board = updateCell(prev.board, row, col, { value: null, hinted: false });
       return { ...prev, board, showMistakes: false };
     });
   }
@@ -130,7 +126,7 @@ export function useSudoku() {
     setState((prev) => ({ ...prev, noteMode: !prev.noteMode }));
   }
 
-  function useHint() {
+  function applyHint() {
     setState((prev) => {
       if (isBoardSolved(prev.board, prev.solution)) return prev;
 
@@ -141,9 +137,7 @@ export function useSudoku() {
       const value = prev.solution[row][col];
       if (value === null) return prev;
 
-      let board = prev.board.map((r) => r.slice());
-      board[row] = board[row].slice();
-      board[row][col] = { ...board[row][col], value, notes: [], hinted: true };
+      let board = updateCell(prev.board, row, col, { value, notes: [], hinted: true });
       board = clearNoteFromPeers(board, row, col, value);
 
       return {
@@ -310,7 +304,7 @@ export function useSudoku() {
     toggleNote,
     eraseValue,
     toggleNoteMode,
-    useHint,
+    applyHint,
     newGame: requestNewGame,
     resetGame,
     checkPuzzle,

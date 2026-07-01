@@ -16,7 +16,7 @@ export function NumberPad({ onNumberSelect, onErase, disabled }: NumberPadProps)
         <button
           key={number}
           type="button"
-          className="number-pad__button"
+          className="number-pad__button btn btn--outline-neutral"
           onClick={() => onNumberSelect(number)}
           disabled={disabled}
         >
@@ -25,7 +25,7 @@ export function NumberPad({ onNumberSelect, onErase, disabled }: NumberPadProps)
       ))}
       <button
         type="button"
-        className="number-pad__button number-pad__button--erase"
+        className="number-pad__button btn btn--outline-neutral number-pad__button--erase"
         onClick={onErase}
         disabled={disabled}
         aria-label="Erase"

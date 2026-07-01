@@ -21,8 +21,13 @@ export function StatisticsScreen({ visible, onClose }: StatisticsScreenProps) {
   const totals = combineStatistics(stats);
 
   return (
-    <div className="statistics-screen" role="dialog" aria-modal="true" aria-label="Statistics">
-      <div className="statistics-screen__card">
+    <div
+      className="statistics-screen modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Statistics"
+    >
+      <div className="statistics-screen__card modal-card">
         <h2 className="statistics-screen__title">Statistics</h2>
         <div className="statistics-screen__table-wrapper">
           <table className="statistics-screen__table">
@@ -68,7 +73,11 @@ export function StatisticsScreen({ visible, onClose }: StatisticsScreenProps) {
             </tbody>
           </table>
         </div>
-        <button type="button" className="statistics-screen__close" onClick={onClose}>
+        <button
+          type="button"
+          className="statistics-screen__close btn btn--filled-primary"
+          onClick={onClose}
+        >
           Close
         </button>
       </div>

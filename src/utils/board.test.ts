@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Puzzle } from "../types/sudoku";
-import { createBoardFromPuzzle, hasBoardProgress } from "./board";
+import { createBoardFromPuzzle, hasBoardProgress, updateCell } from "./board";
 
 const N = null;
 
@@ -78,5 +78,47 @@ describe("hasBoardProgress", () => {
       ],
     };
     expect(hasBoardProgress(createBoardFromPuzzle(puzzle))).toBe(false);
+  });
+});
+
+describe("updateCell", () => {
+  it("merges the patch into the target cell only", () => {
+    const puzzle: Puzzle = {
+      values: [
+        [5, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+      ],
+    };
+    const board = createBoardFromPuzzle(puzzle);
+    const updated = updateCell(board, 1, 2, { value: 7, hinted: true });
+
+    expect(updated[1][2]).toEqual({ value: 7, locked: false, notes: [], hinted: true });
+    expect(updated[0][0]).toEqual(board[0][0]);
+  });
+
+  it("does not mutate the input board", () => {
+    const puzzle: Puzzle = {
+      values: [
+        [5, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+        [N, N, N, N, N, N, N, N, N],
+      ],
+    };
+    const board = createBoardFromPuzzle(puzzle);
+    updateCell(board, 3, 3, { value: 9 });
+    expect(board[3][3].value).toBeNull();
   });
 });

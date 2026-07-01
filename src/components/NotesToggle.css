@@ -2,19 +2,9 @@
   display: block;
   width: 100%;
   max-width: 500px;
-  min-height: 44px;
   margin: var(--space-md) auto var(--space-sm);
   padding: 10px 0;
   font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: background-color var(--transition-fast), color var(--transition-fast),
-    border-color var(--transition-fast);
 }
 
 .notes-toggle--active {

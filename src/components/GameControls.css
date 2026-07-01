@@ -8,26 +8,6 @@
 }
 
 .game-controls__button {
-  min-height: 44px;
   padding: 10px 0;
   font-size: clamp(12px, 3.4vw, 14px);
-  font-weight: 600;
-  color: var(--color-primary);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: background-color var(--transition-fast), color var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.game-controls__button:active:not(:disabled) {
-  background-color: var(--color-primary-soft);
-}
-
-.game-controls__button:disabled {
-  color: var(--color-text-disabled);
-  border-color: var(--color-border);
-  cursor: not-allowed;
 }

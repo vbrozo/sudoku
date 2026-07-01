@@ -16,7 +16,7 @@ export function ThemeToggle({ mode, onToggle }: ThemeToggleProps) {
   return (
     <button
       type="button"
-      className="theme-toggle"
+      className="theme-toggle btn btn--outline-primary"
       onClick={onToggle}
       aria-label={`Theme: ${LABELS[mode]}. Tap to change.`}
     >

@@ -92,3 +92,78 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* Shared button styles, reused across game controls, dialogs, and toggles. */
+.btn {
+  min-height: 44px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.btn--outline-primary {
+  color: var(--color-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary);
+}
+
+.btn--outline-primary:active:not(:disabled) {
+  background-color: var(--color-primary-soft);
+}
+
+.btn--outline-primary:disabled {
+  color: var(--color-text-disabled);
+  border-color: var(--color-border);
+  cursor: not-allowed;
+}
+
+.btn--outline-neutral {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.btn--outline-neutral:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.btn--filled-primary {
+  color: var(--color-primary-contrast);
+  background-color: var(--color-primary);
+  border: none;
+}
+
+/* Shared modal/dialog overlay, reused by ChoiceDialog, VictoryModal, and StatisticsScreen. */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-overlay);
+  padding: var(--space-md);
+  z-index: 10;
+  animation: modal-fade-in var(--transition-fast);
+}
+
+.modal-card {
+  width: 100%;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-card);
+  transition: background-color var(--transition-fast);
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

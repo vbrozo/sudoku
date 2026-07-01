@@ -21,7 +21,7 @@ export function TimerBar({
       </span>
       <button
         type="button"
-        className="timer-bar__button"
+        className="timer-bar__button btn btn--outline-primary"
         onClick={onTogglePause}
         disabled={disabled}
       >
