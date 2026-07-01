@@ -4,7 +4,13 @@ import { generatePuzzle } from "../logic/generator";
 import { findHintCell } from "../logic/hints";
 import { findMistakes, isBoardSolved } from "../logic/mistakes";
 import { clearCellNotes, clearNoteFromPeers, toggleCellNote } from "../logic/notes";
-import { createBoardFromPuzzle } from "../utils/board";
+import { createBoardFromPuzzle, hasBoardProgress } from "../utils/board";
+import {
+  clearSavedGame,
+  loadGame,
+  saveGame,
+  type PersistedGame,
+} from "../utils/storage";
 
 interface SudokuState extends GameState {
   puzzle: Puzzle;
@@ -35,12 +41,25 @@ function buildNewGameState(difficulty: Difficulty): SudokuState {
 
 const DEFAULT_DIFFICULTY: Difficulty = "easy";
 
+/** A saved game is only worth offering to resume if it isn't already solved. */
+function loadResumableGame(): PersistedGame | null {
+  const saved = loadGame();
+  if (!saved) return null;
+  return isBoardSolved(saved.board, saved.solution) ? null : saved;
+}
+
 export function useSudoku() {
   const [state, setState] = useState<SudokuState>(() =>
     buildNewGameState(DEFAULT_DIFFICULTY),
   );
   const [paused, setPaused] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [resumableGame, setResumableGame] = useState<PersistedGame | null>(
+    loadResumableGame,
+  );
+  const [pendingNewGameDifficulty, setPendingNewGameDifficulty] = useState<
+    Difficulty | null
+  >(null);
 
   function selectCell(row: number, col: number) {
     setState((prev) => ({ ...prev, selected: { row, col } }));
@@ -169,6 +188,74 @@ export function useSudoku() {
     setPaused((prev) => !prev);
   }
 
+  // Whether starting a new game right now would discard meaningful progress.
+  function hasUnfinishedProgress(): boolean {
+    return !isSolved && (hasBoardProgress(state.board) || elapsedSeconds > 0 || state.hintCount > 0);
+  }
+
+  function requestNewGame(difficulty?: Difficulty) {
+    if (hasUnfinishedProgress()) {
+      setPendingNewGameDifficulty(difficulty ?? state.difficulty);
+      return;
+    }
+    newGame(difficulty);
+  }
+
+  function confirmNewGame() {
+    if (pendingNewGameDifficulty === null) return;
+    newGame(pendingNewGameDifficulty);
+    setPendingNewGameDifficulty(null);
+  }
+
+  function cancelNewGame() {
+    setPendingNewGameDifficulty(null);
+  }
+
+  function continueSavedGame() {
+    if (!resumableGame) return;
+
+    setState({
+      board: resumableGame.board,
+      selected: null,
+      puzzle: resumableGame.puzzle,
+      solution: resumableGame.solution,
+      difficulty: resumableGame.difficulty,
+      showMistakes: resumableGame.showMistakes,
+      noteMode: resumableGame.noteMode,
+      hintCount: resumableGame.hintCount,
+    });
+    setPaused(resumableGame.paused);
+    setElapsedSeconds(resumableGame.elapsedSeconds);
+    setResumableGame(null);
+  }
+
+  function dismissSavedGame() {
+    setResumableGame(null);
+    clearSavedGame();
+  }
+
+  // Skip autosaving while the resume prompt is open, so the throwaway fresh
+  // game generated at mount doesn't overwrite the save before the player decides.
+  useEffect(() => {
+    if (resumableGame) return;
+
+    saveGame({
+      board: state.board,
+      puzzle: state.puzzle,
+      solution: state.solution,
+      difficulty: state.difficulty,
+      showMistakes: state.showMistakes,
+      noteMode: state.noteMode,
+      hintCount: state.hintCount,
+      paused,
+      elapsedSeconds,
+    });
+  }, [state, paused, elapsedSeconds, resumableGame]);
+
+  useEffect(() => {
+    if (isSolved) clearSavedGame();
+  }, [isSolved]);
+
   return {
     board: state.board,
     selected: state.selected,
@@ -181,13 +268,19 @@ export function useSudoku() {
     paused,
     elapsedSeconds,
     togglePause,
+    hasSavedGame: resumableGame !== null,
+    continueSavedGame,
+    dismissSavedGame,
+    confirmingNewGame: pendingNewGameDifficulty !== null,
+    confirmNewGame,
+    cancelNewGame,
     selectCell,
     setValue,
     toggleNote,
     eraseValue,
     toggleNoteMode,
     useHint,
-    newGame,
+    newGame: requestNewGame,
     resetGame,
     checkPuzzle,
   };

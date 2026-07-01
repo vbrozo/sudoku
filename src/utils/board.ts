@@ -10,3 +10,8 @@ export function createBoardFromPuzzle(puzzle: Puzzle): Board {
     })),
   );
 }
+
+/** True if the player has filled in at least one editable cell. */
+export function hasBoardProgress(board: Board): boolean {
+  return board.some((row) => row.some((cell) => !cell.locked && cell.value !== null));
+}
