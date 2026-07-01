@@ -9,6 +9,7 @@ import { TimerBar } from "./components/TimerBar";
 import { PauseOverlay } from "./components/PauseOverlay";
 import { VictoryModal } from "./components/VictoryModal";
 import { ChoiceDialog } from "./components/ChoiceDialog";
+import { UpdatePrompt } from "./components/UpdatePrompt";
 import { useSudoku } from "./hooks/useSudoku";
 import "./App.css";
 
@@ -99,6 +100,7 @@ function App() {
         onPrimary={confirmNewGame}
         onSecondary={cancelNewGame}
       />
+      <UpdatePrompt />
     </div>
   );
 }
