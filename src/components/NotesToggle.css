@@ -1,0 +1,21 @@
+.notes-toggle {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 12px;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2933;
+  background-color: #ffffff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.notes-toggle--active {
+  color: #ffffff;
+  background-color: #1f2933;
+  border-color: #1f2933;
+}

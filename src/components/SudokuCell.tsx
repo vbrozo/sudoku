@@ -1,4 +1,4 @@
-import type { Cell } from "../types/sudoku";
+import type { Cell, Digit } from "../types/sudoku";
 import "./SudokuCell.css";
 
 interface SudokuCellProps {
@@ -11,6 +11,8 @@ interface SudokuCellProps {
   isMistake: boolean;
   onSelect: (row: number, col: number) => void;
 }
+
+const NOTE_DIGITS: Digit[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export function SudokuCell({
   cell,
@@ -37,6 +39,8 @@ export function SudokuCell({
     .filter(Boolean)
     .join(" ");
 
+  const hasNotes = cell.value === null && cell.notes.length > 0;
+
   return (
     <button
       type="button"
@@ -46,7 +50,19 @@ export function SudokuCell({
         cell.value ? `, value ${cell.value}` : ", empty"
       }`}
     >
-      {cell.value ?? ""}
+      {cell.value ?? (hasNotes ? <CellNotes notes={cell.notes} /> : "")}
     </button>
+  );
+}
+
+function CellNotes({ notes }: { notes: Digit[] }) {
+  return (
+    <span className="sudoku-cell__notes">
+      {NOTE_DIGITS.map((digit) => (
+        <span key={digit} className="sudoku-cell__note">
+          {notes.includes(digit) ? digit : ""}
+        </span>
+      ))}
+    </span>
   );
 }

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { Difficulty, Digit, GameState, Grid, Puzzle } from "../types/sudoku";
 import { generatePuzzle } from "../logic/generator";
 import { findMistakes, isBoardSolved } from "../logic/mistakes";
+import { clearCellNotes, clearNoteFromPeers, toggleCellNote } from "../logic/notes";
 import { createBoardFromPuzzle } from "../utils/board";
 
 interface SudokuState extends GameState {
@@ -9,6 +10,7 @@ interface SudokuState extends GameState {
   solution: Grid;
   difficulty: Difficulty;
   showMistakes: boolean;
+  noteMode: boolean;
 }
 
 function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): SudokuState {
@@ -19,6 +21,7 @@ function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): Sud
     solution,
     difficulty,
     showMistakes: false,
+    noteMode: false,
   };
 }
 
@@ -47,9 +50,23 @@ export function useSudoku() {
       const cell = prev.board[row][col];
       if (cell.locked) return prev;
 
-      const board = prev.board.map((r) => r.slice());
+      let board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
-      board[row][col] = { ...cell, value };
+      board[row][col] = { ...cell, value, notes: [] };
+      board = clearNoteFromPeers(board, row, col, value);
+
+      return { ...prev, board, showMistakes: false };
+    });
+  }
+
+  function toggleNote(value: Digit) {
+    setState((prev) => {
+      if (!prev.selected) return prev;
+      const { row, col } = prev.selected;
+      const cell = prev.board[row][col];
+      if (cell.locked || cell.value !== null) return prev;
+
+      const board = toggleCellNote(prev.board, row, col, value);
       return { ...prev, board, showMistakes: false };
     });
   }
@@ -59,13 +76,24 @@ export function useSudoku() {
       if (!prev.selected) return prev;
       const { row, col } = prev.selected;
       const cell = prev.board[row][col];
-      if (cell.locked || cell.value === null) return prev;
+      if (cell.locked) return prev;
 
+      if (prev.noteMode) {
+        const board = clearCellNotes(prev.board, row, col);
+        if (board === prev.board) return prev;
+        return { ...prev, board, showMistakes: false };
+      }
+
+      if (cell.value === null) return prev;
       const board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
       board[row][col] = { ...cell, value: null };
       return { ...prev, board, showMistakes: false };
     });
+  }
+
+  function toggleNoteMode() {
+    setState((prev) => ({ ...prev, noteMode: !prev.noteMode }));
   }
 
   function newGame(difficulty?: Difficulty) {
@@ -94,12 +122,15 @@ export function useSudoku() {
     board: state.board,
     selected: state.selected,
     difficulty: state.difficulty,
+    noteMode: state.noteMode,
     mistakes,
     showMistakes: state.showMistakes,
     isSolved,
     selectCell,
     setValue,
+    toggleNote,
     eraseValue,
+    toggleNoteMode,
     newGame,
     resetGame,
     checkPuzzle,

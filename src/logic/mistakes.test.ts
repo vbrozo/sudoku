@@ -18,7 +18,7 @@ const solution: Grid = [
 
 function boardFromValues(values: Grid, lockedMask: boolean[][]): Board {
   return values.map((row, r) =>
-    row.map((value, c) => ({ value, locked: lockedMask[r][c] })),
+    row.map((value, c) => ({ value, locked: lockedMask[r][c], notes: [] })),
   );
 }
 

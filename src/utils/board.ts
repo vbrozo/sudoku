@@ -5,6 +5,7 @@ export function createBoardFromPuzzle(puzzle: Puzzle): Board {
     row.map((value) => ({
       value,
       locked: value !== null,
+      notes: [],
     })),
   );
 }

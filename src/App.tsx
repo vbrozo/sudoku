@@ -2,6 +2,7 @@ import { SudokuBoard } from "./components/SudokuBoard";
 import { NumberPad } from "./components/NumberPad";
 import { GameControls } from "./components/GameControls";
 import { DifficultySelector } from "./components/DifficultySelector";
+import { NotesToggle } from "./components/NotesToggle";
 import { MistakeStatus } from "./components/MistakeStatus";
 import { VictoryModal } from "./components/VictoryModal";
 import { useSudoku } from "./hooks/useSudoku";
@@ -12,12 +13,15 @@ function App() {
     board,
     selected,
     difficulty,
+    noteMode,
     mistakes,
     showMistakes,
     isSolved,
     selectCell,
     setValue,
+    toggleNote,
     eraseValue,
+    toggleNoteMode,
     newGame,
     resetGame,
     checkPuzzle,
@@ -42,8 +46,9 @@ function App() {
           mistakes={mistakes}
           onSelectCell={selectCell}
         />
+        <NotesToggle active={noteMode} onToggle={toggleNoteMode} />
         <NumberPad
-          onNumberSelect={setValue}
+          onNumberSelect={noteMode ? toggleNote : setValue}
           onErase={eraseValue}
           disabled={!selected}
         />

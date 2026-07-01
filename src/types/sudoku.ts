@@ -5,6 +5,8 @@ export type CellValue = Digit | null;
 export interface Cell {
   value: CellValue;
   locked: boolean;
+  /** Pencil-marked candidate digits; only meaningful while value is null. */
+  notes: Digit[];
 }
 
 export type Board = Cell[][];
