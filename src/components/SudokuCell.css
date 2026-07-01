@@ -1,0 +1,56 @@
+.sudoku-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  font-size: clamp(16px, 4.2vw, 22px);
+  font-weight: 500;
+  background-color: #ffffff;
+  color: #1f2933;
+  border: none;
+  border-right: 1px solid #dfe3e8;
+  border-bottom: 1px solid #dfe3e8;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.sudoku-cell--locked {
+  color: #1f2933;
+  font-weight: 700;
+  background-color: #eef1f4;
+}
+
+.sudoku-cell--editable {
+  color: #2d6cdf;
+}
+
+.sudoku-cell--peer {
+  background-color: #f0f4fb;
+}
+
+.sudoku-cell--same-value {
+  background-color: #dbe8ff;
+}
+
+.sudoku-cell--selected {
+  background-color: #bcd4ff;
+}
+
+.sudoku-cell--border-left {
+  border-left: 2px solid #2b3844;
+}
+
+.sudoku-cell--border-right {
+  border-right: 2px solid #2b3844;
+}
+
+.sudoku-cell--border-top {
+  border-top: 2px solid #2b3844;
+}
+
+.sudoku-cell--border-bottom {
+  border-bottom: 2px solid #2b3844;
+}
