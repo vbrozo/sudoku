@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SudokuBoard } from "./components/SudokuBoard";
 import { NumberPad } from "./components/NumberPad";
 import { GameControls } from "./components/GameControls";
@@ -10,6 +11,7 @@ import { PauseOverlay } from "./components/PauseOverlay";
 import { VictoryModal } from "./components/VictoryModal";
 import { ChoiceDialog } from "./components/ChoiceDialog";
 import { UpdatePrompt } from "./components/UpdatePrompt";
+import { StatisticsScreen } from "./components/StatisticsScreen";
 import { useSudoku } from "./hooks/useSudoku";
 import "./App.css";
 
@@ -43,10 +45,19 @@ function App() {
     checkPuzzle,
   } = useSudoku();
 
+  const [statsOpen, setStatsOpen] = useState(false);
+
   return (
     <div className="app">
       <header className="app__header">
         <h1>Sudoku</h1>
+        <button
+          type="button"
+          className="app__stats-button"
+          onClick={() => setStatsOpen(true)}
+        >
+          Stats
+        </button>
       </header>
       <main className="app__main">
         <TimerBar
@@ -100,6 +111,7 @@ function App() {
         onPrimary={confirmNewGame}
         onSecondary={cancelNewGame}
       />
+      <StatisticsScreen visible={statsOpen} onClose={() => setStatsOpen(false)} />
       <UpdatePrompt />
     </div>
   );

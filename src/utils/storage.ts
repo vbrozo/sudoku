@@ -10,6 +10,7 @@ export interface PersistedGame {
   showMistakes: boolean;
   noteMode: boolean;
   hintCount: number;
+  mistakesMade: number;
   paused: boolean;
   elapsedSeconds: number;
 }
@@ -73,6 +74,7 @@ function isValidPersistedGame(data: unknown): data is PersistedGame {
     typeof d.showMistakes === "boolean" &&
     typeof d.noteMode === "boolean" &&
     isNonNegativeInteger(d.hintCount) &&
+    isNonNegativeInteger(d.mistakesMade) &&
     typeof d.paused === "boolean" &&
     isNonNegativeInteger(d.elapsedSeconds)
   );

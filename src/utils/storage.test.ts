@@ -54,6 +54,7 @@ function samplePersistedGame(): PersistedGame {
     showMistakes: false,
     noteMode: false,
     hintCount: 0,
+    mistakesMade: 0,
     paused: false,
     elapsedSeconds: 0,
   };

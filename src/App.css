@@ -8,6 +8,7 @@
 }
 
 .app__header {
+  position: relative;
   width: 100%;
   max-width: 500px;
   text-align: center;
@@ -19,6 +20,22 @@
   font-weight: 700;
   color: #1f2933;
   margin: 0;
+}
+
+.app__stats-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d6cdf;
+  background-color: #ffffff;
+  border: 1px solid #2d6cdf;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .app__main {

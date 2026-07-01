@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Difficulty, Digit, GameState, Grid, Puzzle } from "../types/sudoku";
 import { generatePuzzle } from "../logic/generator";
 import { findHintCell } from "../logic/hints";
@@ -11,6 +11,7 @@ import {
   saveGame,
   type PersistedGame,
 } from "../utils/storage";
+import { loadStatistics, recordCompletedGame, saveStatistics } from "../utils/statistics";
 
 interface SudokuState extends GameState {
   puzzle: Puzzle;
@@ -19,6 +20,7 @@ interface SudokuState extends GameState {
   showMistakes: boolean;
   noteMode: boolean;
   hintCount: number;
+  mistakesMade: number;
 }
 
 function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): SudokuState {
@@ -31,6 +33,7 @@ function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): Sud
     showMistakes: false,
     noteMode: false,
     hintCount: 0,
+    mistakesMade: 0,
   };
 }
 
@@ -79,7 +82,14 @@ export function useSudoku() {
       board[row][col] = { ...cell, value, notes: [], hinted: false };
       board = clearNoteFromPeers(board, row, col, value);
 
-      return { ...prev, board, showMistakes: false };
+      const isWrong = prev.solution[row][col] !== value;
+
+      return {
+        ...prev,
+        board,
+        showMistakes: false,
+        mistakesMade: prev.mistakesMade + (isWrong ? 1 : 0),
+      };
     });
   }
 
@@ -223,6 +233,7 @@ export function useSudoku() {
       showMistakes: resumableGame.showMistakes,
       noteMode: resumableGame.noteMode,
       hintCount: resumableGame.hintCount,
+      mistakesMade: resumableGame.mistakesMade,
     });
     setPaused(resumableGame.paused);
     setElapsedSeconds(resumableGame.elapsedSeconds);
@@ -247,6 +258,7 @@ export function useSudoku() {
       showMistakes: state.showMistakes,
       noteMode: state.noteMode,
       hintCount: state.hintCount,
+      mistakesMade: state.mistakesMade,
       paused,
       elapsedSeconds,
     });
@@ -255,6 +267,25 @@ export function useSudoku() {
   useEffect(() => {
     if (isSolved) clearSavedGame();
   }, [isSolved]);
+
+  // Record each puzzle's completion in the local statistics exactly once,
+  // identified by the puzzle object's identity (a new one every new/reset game).
+  const recordedPuzzleRef = useRef<Puzzle | null>(null);
+
+  useEffect(() => {
+    if (!isSolved) return;
+    if (recordedPuzzleRef.current === state.puzzle) return;
+    recordedPuzzleRef.current = state.puzzle;
+
+    const stats = loadStatistics();
+    const updated = recordCompletedGame(stats, {
+      difficulty: state.difficulty,
+      elapsedSeconds,
+      hintsUsed: state.hintCount,
+      mistakesMade: state.mistakesMade,
+    });
+    saveStatistics(updated);
+  }, [isSolved, state.puzzle, state.difficulty, state.hintCount, state.mistakesMade, elapsedSeconds]);
 
   return {
     board: state.board,
