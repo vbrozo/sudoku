@@ -1,0 +1,26 @@
+.difficulty-selector {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 12px;
+}
+
+.difficulty-selector__button {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2933;
+  background-color: #ffffff;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.difficulty-selector__button--active {
+  color: #ffffff;
+  background-color: #2d6cdf;
+  border-color: #2d6cdf;
+}

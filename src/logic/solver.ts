@@ -6,11 +6,11 @@ export type SolveResult =
   | { success: true; grid: Grid }
   | { success: false };
 
-function cloneGrid(grid: Grid): Grid {
+export function cloneGrid(grid: Grid): Grid {
   return grid.map((row) => row.slice());
 }
 
-function findEmptyCell(grid: Grid): { row: number; col: number } | null {
+export function findEmptyCell(grid: Grid): { row: number; col: number } | null {
   for (let row = 0; row < BOARD_SIZE; row++) {
     for (let col = 0; col < BOARD_SIZE; col++) {
       if (grid[row][col] === null) return { row, col };

@@ -20,3 +20,5 @@ export interface GameState {
   board: Board;
   selected: { row: number; col: number } | null;
 }
+
+export type Difficulty = "easy" | "medium" | "hard";

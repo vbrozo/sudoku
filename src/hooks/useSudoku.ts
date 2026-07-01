@@ -1,22 +1,33 @@
 import { useState } from "react";
-import type { Digit, GameState } from "../types/sudoku";
-import { puzzles } from "../data/puzzles";
+import type { Difficulty, Digit, GameState, Puzzle } from "../types/sudoku";
+import { generatePuzzle } from "../logic/generator";
 import { createBoardFromPuzzle } from "../utils/board";
 
 interface SudokuState extends GameState {
-  puzzleIndex: number;
+  puzzle: Puzzle;
+  difficulty: Difficulty;
 }
 
-function buildInitialState(puzzleIndex: number): SudokuState {
+function buildState(puzzle: Puzzle, difficulty: Difficulty): SudokuState {
   return {
-    board: createBoardFromPuzzle(puzzles[puzzleIndex]),
+    board: createBoardFromPuzzle(puzzle),
     selected: null,
-    puzzleIndex,
+    puzzle,
+    difficulty,
   };
 }
 
+function buildNewGameState(difficulty: Difficulty): SudokuState {
+  const { puzzle } = generatePuzzle(difficulty);
+  return buildState(puzzle, difficulty);
+}
+
+const DEFAULT_DIFFICULTY: Difficulty = "easy";
+
 export function useSudoku() {
-  const [state, setState] = useState<SudokuState>(() => buildInitialState(0));
+  const [state, setState] = useState<SudokuState>(() =>
+    buildNewGameState(DEFAULT_DIFFICULTY),
+  );
 
   function selectCell(row: number, col: number) {
     setState((prev) => ({ ...prev, selected: { row, col } }));
@@ -52,17 +63,18 @@ export function useSudoku() {
     });
   }
 
-  function newGame() {
-    setState((prev) => buildInitialState((prev.puzzleIndex + 1) % puzzles.length));
+  function newGame(difficulty?: Difficulty) {
+    setState((prev) => buildNewGameState(difficulty ?? prev.difficulty));
   }
 
   function resetGame() {
-    setState((prev) => buildInitialState(prev.puzzleIndex));
+    setState((prev) => buildState(prev.puzzle, prev.difficulty));
   }
 
   return {
     board: state.board,
     selected: state.selected,
+    difficulty: state.difficulty,
     selectCell,
     setValue,
     eraseValue,
