@@ -9,7 +9,7 @@
 .game-controls__button {
   flex: 1;
   padding: 10px 0;
-  font-size: 14px;
+  font-size: clamp(12px, 3.4vw, 14px);
   font-weight: 600;
   color: #2d6cdf;
   background-color: #ffffff;

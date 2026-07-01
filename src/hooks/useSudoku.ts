@@ -1,25 +1,30 @@
-import { useState } from "react";
-import type { Difficulty, Digit, GameState, Puzzle } from "../types/sudoku";
+import { useMemo, useState } from "react";
+import type { Difficulty, Digit, GameState, Grid, Puzzle } from "../types/sudoku";
 import { generatePuzzle } from "../logic/generator";
+import { findMistakes, isBoardSolved } from "../logic/mistakes";
 import { createBoardFromPuzzle } from "../utils/board";
 
 interface SudokuState extends GameState {
   puzzle: Puzzle;
+  solution: Grid;
   difficulty: Difficulty;
+  showMistakes: boolean;
 }
 
-function buildState(puzzle: Puzzle, difficulty: Difficulty): SudokuState {
+function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): SudokuState {
   return {
     board: createBoardFromPuzzle(puzzle),
     selected: null,
     puzzle,
+    solution,
     difficulty,
+    showMistakes: false,
   };
 }
 
 function buildNewGameState(difficulty: Difficulty): SudokuState {
-  const { puzzle } = generatePuzzle(difficulty);
-  return buildState(puzzle, difficulty);
+  const { puzzle, solution } = generatePuzzle(difficulty);
+  return buildState(puzzle, solution, difficulty);
 }
 
 const DEFAULT_DIFFICULTY: Difficulty = "easy";
@@ -45,7 +50,7 @@ export function useSudoku() {
       const board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
       board[row][col] = { ...cell, value };
-      return { ...prev, board };
+      return { ...prev, board, showMistakes: false };
     });
   }
 
@@ -59,7 +64,7 @@ export function useSudoku() {
       const board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
       board[row][col] = { ...cell, value: null };
-      return { ...prev, board };
+      return { ...prev, board, showMistakes: false };
     });
   }
 
@@ -68,17 +73,35 @@ export function useSudoku() {
   }
 
   function resetGame() {
-    setState((prev) => buildState(prev.puzzle, prev.difficulty));
+    setState((prev) => buildState(prev.puzzle, prev.solution, prev.difficulty));
   }
+
+  function checkPuzzle() {
+    setState((prev) => ({ ...prev, showMistakes: true }));
+  }
+
+  const mistakes = useMemo(
+    () => (state.showMistakes ? findMistakes(state.board, state.solution) : []),
+    [state.board, state.solution, state.showMistakes],
+  );
+
+  const isSolved = useMemo(
+    () => isBoardSolved(state.board, state.solution),
+    [state.board, state.solution],
+  );
 
   return {
     board: state.board,
     selected: state.selected,
     difficulty: state.difficulty,
+    mistakes,
+    showMistakes: state.showMistakes,
+    isSolved,
     selectCell,
     setValue,
     eraseValue,
     newGame,
     resetGame,
+    checkPuzzle,
   };
 }

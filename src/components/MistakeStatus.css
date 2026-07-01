@@ -1,0 +1,16 @@
+.mistake-status {
+  width: 100%;
+  max-width: 500px;
+  margin: -8px auto 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mistake-status--ok {
+  color: #1a7f37;
+}
+
+.mistake-status--error {
+  color: #b3261e;
+}

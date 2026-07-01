@@ -8,6 +8,7 @@ interface SudokuCellProps {
   isSelected: boolean;
   isPeer: boolean;
   isSameValue: boolean;
+  isMistake: boolean;
   onSelect: (row: number, col: number) => void;
 }
 
@@ -18,6 +19,7 @@ export function SudokuCell({
   isSelected,
   isPeer,
   isSameValue,
+  isMistake,
   onSelect,
 }: SudokuCellProps) {
   const classNames = [
@@ -26,6 +28,7 @@ export function SudokuCell({
     isSelected ? "sudoku-cell--selected" : "",
     isPeer && !isSelected ? "sudoku-cell--peer" : "",
     isSameValue && !isSelected ? "sudoku-cell--same-value" : "",
+    isMistake ? "sudoku-cell--mistake" : "",
     col % 3 === 0 ? "sudoku-cell--border-left" : "",
     col === 8 ? "sudoku-cell--border-right" : "",
     row % 3 === 0 ? "sudoku-cell--border-top" : "",

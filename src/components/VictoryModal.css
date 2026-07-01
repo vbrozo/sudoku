@@ -1,0 +1,44 @@
+.victory-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(31, 41, 51, 0.5);
+  padding: 16px;
+  z-index: 10;
+}
+
+.victory-modal__card {
+  width: 100%;
+  max-width: 320px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.victory-modal__title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: #1a7f37;
+}
+
+.victory-modal__message {
+  margin: 0 0 20px;
+  color: #1f2933;
+}
+
+.victory-modal__button {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #2d6cdf;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}

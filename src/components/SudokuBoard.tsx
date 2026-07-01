@@ -1,4 +1,5 @@
 import type { Board } from "../types/sudoku";
+import type { Position } from "../logic/validation";
 import { isPeer } from "../logic/rules";
 import { SudokuCell } from "./SudokuCell";
 import "./SudokuBoard.css";
@@ -6,11 +7,18 @@ import "./SudokuBoard.css";
 interface SudokuBoardProps {
   board: Board;
   selected: { row: number; col: number } | null;
+  mistakes: Position[];
   onSelectCell: (row: number, col: number) => void;
 }
 
-export function SudokuBoard({ board, selected, onSelectCell }: SudokuBoardProps) {
+export function SudokuBoard({
+  board,
+  selected,
+  mistakes,
+  onSelectCell,
+}: SudokuBoardProps) {
   const selectedValue = selected ? board[selected.row][selected.col].value : null;
+  const mistakeKeys = new Set(mistakes.map(({ row, col }) => `${row}-${col}`));
 
   return (
     <div className="sudoku-board" role="grid" aria-label="Sudoku board">
@@ -23,6 +31,7 @@ export function SudokuBoard({ board, selected, onSelectCell }: SudokuBoardProps)
           const isSameValue = Boolean(
             selectedValue !== null && cell.value === selectedValue,
           );
+          const isMistake = mistakeKeys.has(`${row}-${col}`);
 
           return (
             <SudokuCell
@@ -33,6 +42,7 @@ export function SudokuBoard({ board, selected, onSelectCell }: SudokuBoardProps)
               isSelected={isSelected}
               isPeer={isPeerCell}
               isSameValue={isSameValue}
+              isMistake={isMistake}
               onSelect={onSelectCell}
             />
           );
