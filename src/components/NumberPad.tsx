@@ -1,12 +1,13 @@
+import type { Digit } from "../types/sudoku";
 import "./NumberPad.css";
 
 interface NumberPadProps {
-  onNumberSelect: (value: number) => void;
+  onNumberSelect: (value: Digit) => void;
   onErase: () => void;
   disabled: boolean;
 }
 
-const NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const NUMBERS: Digit[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export function NumberPad({ onNumberSelect, onErase, disabled }: NumberPadProps) {
   return (

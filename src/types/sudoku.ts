@@ -1,4 +1,6 @@
-export type CellValue = number | null;
+export type Digit = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export type CellValue = Digit | null;
 
 export interface Cell {
   value: CellValue;
@@ -8,7 +10,7 @@ export interface Cell {
 export type Board = Cell[][];
 
 export interface Puzzle {
-  values: (number | null)[][];
+  values: CellValue[][];
 }
 
 export interface GameState {

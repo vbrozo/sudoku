@@ -1,0 +1,24 @@
+.game-controls {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 16px;
+}
+
+.game-controls__button {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d6cdf;
+  background-color: #ffffff;
+  border: 1px solid #2d6cdf;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.game-controls__button:active {
+  background-color: #eaf0ff;
+}
