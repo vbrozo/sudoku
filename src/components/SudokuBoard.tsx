@@ -1,5 +1,5 @@
 import type { Board } from "../types/sudoku";
-import { isPeer } from "../utils/board";
+import { isPeer } from "../logic/rules";
 import { SudokuCell } from "./SudokuCell";
 import "./SudokuBoard.css";
 

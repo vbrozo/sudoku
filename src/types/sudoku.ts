@@ -9,6 +9,9 @@ export interface Cell {
 
 export type Board = Cell[][];
 
+/** Plain 9x9 grid of values, with no locked/UI state — used by the solver and validators. */
+export type Grid = CellValue[][];
+
 export interface Puzzle {
   values: CellValue[][];
 }
