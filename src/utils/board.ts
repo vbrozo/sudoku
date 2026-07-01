@@ -6,6 +6,7 @@ export function createBoardFromPuzzle(puzzle: Puzzle): Board {
       value,
       locked: value !== null,
       notes: [],
+      hinted: false,
     })),
   );
 }

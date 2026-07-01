@@ -44,6 +44,11 @@
   background-color: #fbe7e6;
 }
 
+.sudoku-cell--hinted {
+  color: #9a6b00;
+  background-color: #fdf1d6;
+}
+
 .sudoku-cell--border-left {
   border-left: 2px solid #2b3844;
 }

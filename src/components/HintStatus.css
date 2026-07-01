@@ -1,0 +1,9 @@
+.hint-status {
+  width: 100%;
+  max-width: 500px;
+  margin: -8px auto 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9a6b00;
+}

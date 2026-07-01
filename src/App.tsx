@@ -4,6 +4,7 @@ import { GameControls } from "./components/GameControls";
 import { DifficultySelector } from "./components/DifficultySelector";
 import { NotesToggle } from "./components/NotesToggle";
 import { MistakeStatus } from "./components/MistakeStatus";
+import { HintStatus } from "./components/HintStatus";
 import { VictoryModal } from "./components/VictoryModal";
 import { useSudoku } from "./hooks/useSudoku";
 import "./App.css";
@@ -14,6 +15,7 @@ function App() {
     selected,
     difficulty,
     noteMode,
+    hintCount,
     mistakes,
     showMistakes,
     isSolved,
@@ -22,6 +24,7 @@ function App() {
     toggleNote,
     eraseValue,
     toggleNoteMode,
+    useHint,
     newGame,
     resetGame,
     checkPuzzle,
@@ -38,8 +41,11 @@ function App() {
           onNewGame={() => newGame()}
           onResetGame={resetGame}
           onCheck={checkPuzzle}
+          onHint={useHint}
+          hintDisabled={isSolved}
         />
         <MistakeStatus visible={showMistakes && !isSolved} mistakeCount={mistakes.length} />
+        <HintStatus hintCount={hintCount} />
         <SudokuBoard
           board={board}
           selected={selected}

@@ -31,6 +31,7 @@ export function SudokuCell({
     isPeer && !isSelected ? "sudoku-cell--peer" : "",
     isSameValue && !isSelected ? "sudoku-cell--same-value" : "",
     isMistake ? "sudoku-cell--mistake" : "",
+    cell.hinted && !isMistake ? "sudoku-cell--hinted" : "",
     col % 3 === 0 ? "sudoku-cell--border-left" : "",
     col === 8 ? "sudoku-cell--border-right" : "",
     row % 3 === 0 ? "sudoku-cell--border-top" : "",

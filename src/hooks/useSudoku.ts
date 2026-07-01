@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import type { Difficulty, Digit, GameState, Grid, Puzzle } from "../types/sudoku";
 import { generatePuzzle } from "../logic/generator";
+import { findHintCell } from "../logic/hints";
 import { findMistakes, isBoardSolved } from "../logic/mistakes";
 import { clearCellNotes, clearNoteFromPeers, toggleCellNote } from "../logic/notes";
 import { createBoardFromPuzzle } from "../utils/board";
@@ -11,6 +12,7 @@ interface SudokuState extends GameState {
   difficulty: Difficulty;
   showMistakes: boolean;
   noteMode: boolean;
+  hintCount: number;
 }
 
 function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): SudokuState {
@@ -22,6 +24,7 @@ function buildState(puzzle: Puzzle, solution: Grid, difficulty: Difficulty): Sud
     difficulty,
     showMistakes: false,
     noteMode: false,
+    hintCount: 0,
   };
 }
 
@@ -52,7 +55,7 @@ export function useSudoku() {
 
       let board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
-      board[row][col] = { ...cell, value, notes: [] };
+      board[row][col] = { ...cell, value, notes: [], hinted: false };
       board = clearNoteFromPeers(board, row, col, value);
 
       return { ...prev, board, showMistakes: false };
@@ -87,13 +90,39 @@ export function useSudoku() {
       if (cell.value === null) return prev;
       const board = prev.board.map((r) => r.slice());
       board[row] = board[row].slice();
-      board[row][col] = { ...cell, value: null };
+      board[row][col] = { ...cell, value: null, hinted: false };
       return { ...prev, board, showMistakes: false };
     });
   }
 
   function toggleNoteMode() {
     setState((prev) => ({ ...prev, noteMode: !prev.noteMode }));
+  }
+
+  function useHint() {
+    setState((prev) => {
+      if (isBoardSolved(prev.board, prev.solution)) return prev;
+
+      const target = findHintCell(prev.board);
+      if (!target) return prev;
+
+      const { row, col } = target;
+      const value = prev.solution[row][col];
+      if (value === null) return prev;
+
+      let board = prev.board.map((r) => r.slice());
+      board[row] = board[row].slice();
+      board[row][col] = { ...board[row][col], value, notes: [], hinted: true };
+      board = clearNoteFromPeers(board, row, col, value);
+
+      return {
+        ...prev,
+        board,
+        selected: { row, col },
+        showMistakes: false,
+        hintCount: prev.hintCount + 1,
+      };
+    });
   }
 
   function newGame(difficulty?: Difficulty) {
@@ -123,6 +152,7 @@ export function useSudoku() {
     selected: state.selected,
     difficulty: state.difficulty,
     noteMode: state.noteMode,
+    hintCount: state.hintCount,
     mistakes,
     showMistakes: state.showMistakes,
     isSolved,
@@ -131,6 +161,7 @@ export function useSudoku() {
     toggleNote,
     eraseValue,
     toggleNoteMode,
+    useHint,
     newGame,
     resetGame,
     checkPuzzle,

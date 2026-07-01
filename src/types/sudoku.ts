@@ -7,6 +7,8 @@ export interface Cell {
   locked: boolean;
   /** Pencil-marked candidate digits; only meaningful while value is null. */
   notes: Digit[];
+  /** True if this cell's value was filled in by the hint system. */
+  hinted: boolean;
 }
 
 export type Board = Cell[][];

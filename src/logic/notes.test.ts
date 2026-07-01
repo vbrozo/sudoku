@@ -4,7 +4,12 @@ import { clearCellNotes, clearNoteFromPeers, toggleCellNote } from "./notes";
 
 function emptyBoard(): Board {
   return Array.from({ length: 9 }, () =>
-    Array.from({ length: 9 }, () => ({ value: null, locked: false, notes: [] })),
+    Array.from({ length: 9 }, () => ({
+      value: null,
+      locked: false,
+      notes: [],
+      hinted: false,
+    })),
   );
 }
 
