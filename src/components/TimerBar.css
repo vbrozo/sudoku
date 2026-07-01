@@ -1,0 +1,37 @@
+.timer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 12px;
+}
+
+.timer-bar__time {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #1f2933;
+}
+
+.timer-bar__button {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2d6cdf;
+  background-color: #ffffff;
+  border: 1px solid #2d6cdf;
+  border-radius: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.timer-bar__button:active:not(:disabled) {
+  background-color: #eaf0ff;
+}
+
+.timer-bar__button:disabled {
+  color: #b0b7bf;
+  border-color: #dfe3e8;
+  cursor: not-allowed;
+}

@@ -5,6 +5,8 @@ import { DifficultySelector } from "./components/DifficultySelector";
 import { NotesToggle } from "./components/NotesToggle";
 import { MistakeStatus } from "./components/MistakeStatus";
 import { HintStatus } from "./components/HintStatus";
+import { TimerBar } from "./components/TimerBar";
+import { PauseOverlay } from "./components/PauseOverlay";
 import { VictoryModal } from "./components/VictoryModal";
 import { useSudoku } from "./hooks/useSudoku";
 import "./App.css";
@@ -19,6 +21,9 @@ function App() {
     mistakes,
     showMistakes,
     isSolved,
+    paused,
+    elapsedSeconds,
+    togglePause,
     selectCell,
     setValue,
     toggleNote,
@@ -36,27 +41,36 @@ function App() {
         <h1>Sudoku</h1>
       </header>
       <main className="app__main">
+        <TimerBar
+          elapsedSeconds={elapsedSeconds}
+          paused={paused}
+          onTogglePause={togglePause}
+          disabled={isSolved}
+        />
         <DifficultySelector difficulty={difficulty} onSelect={newGame} />
         <GameControls
           onNewGame={() => newGame()}
           onResetGame={resetGame}
           onCheck={checkPuzzle}
           onHint={useHint}
-          hintDisabled={isSolved}
+          hintDisabled={isSolved || paused}
         />
         <MistakeStatus visible={showMistakes && !isSolved} mistakeCount={mistakes.length} />
         <HintStatus hintCount={hintCount} />
-        <SudokuBoard
-          board={board}
-          selected={selected}
-          mistakes={mistakes}
-          onSelectCell={selectCell}
-        />
+        <div className={"game-board-area" + (paused ? " game-board-area--paused" : "")}>
+          <SudokuBoard
+            board={board}
+            selected={selected}
+            mistakes={mistakes}
+            onSelectCell={selectCell}
+          />
+          {paused && <PauseOverlay />}
+        </div>
         <NotesToggle active={noteMode} onToggle={toggleNoteMode} />
         <NumberPad
           onNumberSelect={noteMode ? toggleNote : setValue}
           onErase={eraseValue}
-          disabled={!selected}
+          disabled={!selected || paused}
         />
       </main>
       <VictoryModal visible={isSolved} onPlayAgain={() => newGame()} />

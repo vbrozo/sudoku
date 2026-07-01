@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Difficulty, Digit, GameState, Grid, Puzzle } from "../types/sudoku";
 import { generatePuzzle } from "../logic/generator";
 import { findHintCell } from "../logic/hints";
@@ -39,6 +39,8 @@ export function useSudoku() {
   const [state, setState] = useState<SudokuState>(() =>
     buildNewGameState(DEFAULT_DIFFICULTY),
   );
+  const [paused, setPaused] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   function selectCell(row: number, col: number) {
     setState((prev) => ({ ...prev, selected: { row, col } }));
@@ -127,10 +129,14 @@ export function useSudoku() {
 
   function newGame(difficulty?: Difficulty) {
     setState((prev) => buildNewGameState(difficulty ?? prev.difficulty));
+    setPaused(false);
+    setElapsedSeconds(0);
   }
 
   function resetGame() {
     setState((prev) => buildState(prev.puzzle, prev.solution, prev.difficulty));
+    setPaused(false);
+    setElapsedSeconds(0);
   }
 
   function checkPuzzle() {
@@ -147,6 +153,22 @@ export function useSudoku() {
     [state.board, state.solution],
   );
 
+  const isTimerRunning = !paused && !isSolved;
+
+  useEffect(() => {
+    if (!isTimerRunning) return;
+
+    const intervalId = window.setInterval(() => {
+      setElapsedSeconds((seconds) => seconds + 1);
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isTimerRunning]);
+
+  function togglePause() {
+    setPaused((prev) => !prev);
+  }
+
   return {
     board: state.board,
     selected: state.selected,
@@ -156,6 +178,9 @@ export function useSudoku() {
     mistakes,
     showMistakes: state.showMistakes,
     isSolved,
+    paused,
+    elapsedSeconds,
+    togglePause,
     selectCell,
     setValue,
     toggleNote,

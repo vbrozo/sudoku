@@ -1,0 +1,25 @@
+.game-board-area {
+  position: relative;
+}
+
+.game-board-area--paused .sudoku-board {
+  filter: blur(8px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.pause-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(244, 245, 247, 0.7);
+  border-radius: 8px;
+}
+
+.pause-overlay__text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2933;
+}
